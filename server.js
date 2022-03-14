@@ -111,6 +111,26 @@ const init = async () => {
 		},
 	});
 
+	// update delete status route
+	server.route({
+		method: 'PUT',
+		path: '/api/employee/{id}/{action}',
+		handler: async (request, h) => {
+			// accepting the params and updating the delete status
+
+			const id = request.params.id;
+			const action = request.params.action;
+			const acceptedAction = ['activate', 'deactivate'];
+			if (acceptedAction.includes(action.toLowerCase())) {
+				const payload = { DeletedAt: action === 'deactivate' ? Date.now() : null };
+				const status = await UpdateDoc(id, payload);
+				return status;
+			} else {
+				return 'Invalid Action';
+			}
+		},
+	});
+
 	await server.start();
 	console.log('Server start on - ', server.info.uri);
 };
