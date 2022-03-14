@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const InsertDoc = require('./backend/Utils/InsertDoc');
 const UpdateDoc = require('./backend/Utils/UpdateDoc');
+const GetDocs = require('./backend/Utils/GetDocs');
 
 const init = async () => {
 	// initalising server
@@ -19,6 +20,20 @@ const init = async () => {
 		() => console.log('Connected with database'),
 		e => console.error(e)
 	);
+
+	// get all record route
+	server.route({
+		method: 'GET',
+		path: '/api/employee',
+		handler: async (request, h) => {
+			// accepting the queries (if exists) and awaiting and returning the all the records in the collection
+
+			const queries = request.query;
+			const status = await GetDocs(queries);
+
+			return status;
+		},
+	});
 
 	// insert route
 	server.route({
