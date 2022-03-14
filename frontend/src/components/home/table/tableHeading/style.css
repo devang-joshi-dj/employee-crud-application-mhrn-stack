@@ -1,0 +1,40 @@
+.tableHeading {
+	width: 100%;
+	height: 56px;
+	padding: 0;
+	z-index: 50;
+}
+
+.tableHeading h2 {
+	float: left;
+	margin: 0;
+	font-size: 1.6rem;
+	line-height: 56px;
+	font-weight: 700;
+}
+
+.tableHeading div {
+	float: right;
+	font-size: 100%;
+}
+
+.tableHeading div button {
+	display: inline-block;
+	outline: none;
+	border: 1px solid var(--gray);
+	font-size: 1rem;
+	background: var(--gray);
+	color: var(--white);
+	line-height: 56px;
+	padding: 0 10px;
+	text-align: center;
+	cursor: pointer;
+	transition: all 0.1s;
+}
+
+.tableHeading div button:hover {
+	background: var(--cool-gray);
+}
+.tableHeading div button:active {
+	background: var(--black);
+}

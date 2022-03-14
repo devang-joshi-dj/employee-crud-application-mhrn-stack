@@ -1,9 +1,19 @@
-html, body {
+:root {
+	--white: #ffffff;
+	--black: #000000;
+	--ivory: #e2ded0;
+	--blue-gray: #647c90;
+	--cool-gray: #4e4f50;
+	--gray: #746c70;
+}
+
+html,
+body {
 	height: 100%;
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background: #FAFAFA;
+	background: #fafafa;
 	font-family: 'Helvetica Neue', arial, sans-serif;
 	font-weight: 400;
 	color: #444;

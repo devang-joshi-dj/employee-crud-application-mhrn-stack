@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "short_name": "frontend",
+  "name": "Employee CRUD Application",
+  "short_name": "Employee_CRUD_Application",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
