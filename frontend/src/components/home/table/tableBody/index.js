@@ -1,7 +1,9 @@
 import { h } from 'preact';
+import { useState, useCallback } from 'preact/hooks';
 import style from './style.css';
 import optionIcon from '../../../../assets/home-icons/option.png';
 import { getDateStr } from '../../../../utils/formatDate';
+import axios from 'axios';
 
 const HEADERS = [
 	'First Name',
@@ -21,7 +23,33 @@ const HEADERS = [
 	'',
 ];
 
-const TableBody = ({ employees }) => (
+const Options = ({ id, deleteStat, getAllRecords }) => {
+	const setDeleteStatus = (id, status) => {
+		axios.put(`/api/employee/${id}/${status}`).then(() => {
+			getAllRecords();
+		});
+	};
+
+	return (
+		<td class={style.popoverWrapper}>
+			<img class={style.img} src={optionIcon} alt="option" />
+			<div class={style.popoverContent}>
+				<button class={style.popoverButton}>Edit</button>
+				<button
+					class={style.popoverButton}
+					onClick={() => {
+						const status = deleteStat === null ? 'Deactivate' : 'Activate';
+						setDeleteStatus(id, status);
+					}}
+				>
+					{deleteStat === null ? 'Deactivate' : 'Activate'}
+				</button>
+			</div>
+		</td>
+	);
+};
+
+const TableBody = ({ employees, getAllRecords }) => (
 	<div class={style.tableContainer}>
 		<table id={style.employees}>
 			<tr>
@@ -67,13 +95,11 @@ const TableBody = ({ employees }) => (
 					};
 
 					return (
-						<tr>
+						<tr key={_id} class={DeletedAt ? style.deleted : null}>
 							{Object.keys(employee).map(key => (
-								<td>{employee[key]}</td>
+								<td key={key}>{employee[key]}</td>
 							))}
-							<td>
-								<img class={style.img} src={optionIcon} alt="option" />
-							</td>
+							<Options id={_id} deleteStat={DeletedAt} getAllRecords={getAllRecords} />
 						</tr>
 					);
 				}

@@ -122,7 +122,7 @@ const init = async () => {
 			const action = request.params.action;
 			const acceptedAction = ['activate', 'deactivate'];
 			if (acceptedAction.includes(action.toLowerCase())) {
-				const payload = { DeletedAt: action === 'deactivate' ? Date.now() : null };
+				const payload = { DeletedAt: action.toLowerCase() === 'deactivate' ? Date.now() : null };
 				const status = await UpdateDoc(id, payload);
 				return status;
 			} else {
