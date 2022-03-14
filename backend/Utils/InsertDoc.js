@@ -13,22 +13,20 @@ async function InsertDoc(payload) {
 		DateOfJoining: payload.DateOfJoining,
 		ReportingManager: payload.ReportingManager,
 		Salary: payload.Salary,
-		Employeecode: payload.Employeecode,
+		EmployeeCode: payload.Employeecode,
 		Location: payload.Location,
 		State: payload.State,
 		Country: payload.Country,
 		Department: payload.Department,
 		DeletedAt: payload.DeletedAt,
 	});
-	const status = await employee
-		.save()
-		.then(() => {
-			return 'Successfully Inserted';
-		})
-		.catch(err => {
-			return err.message;
-		});
-	return status;
+
+	try {
+		const status = await employee.save();
+		return status;
+	} catch (err) {
+		return err.message;
+	}
 }
 
 module.exports = InsertDoc;

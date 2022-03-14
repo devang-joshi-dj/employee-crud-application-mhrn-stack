@@ -43,7 +43,7 @@ const employeeSchema = new mongoose.Schema({
 	Salary: {
 		type: Number,
 	},
-	Employeecode: {
+	EmployeeCode: {
 		type: Number,
 	},
 	Location: {
