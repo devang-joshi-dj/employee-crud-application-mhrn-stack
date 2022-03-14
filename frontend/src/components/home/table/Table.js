@@ -22,7 +22,7 @@ const Table = () => {
 
 	return (
 		<div class={style.container}>
-			<TableHeading employeesCount={employeesCount} />
+			<TableHeading employeesCount={employeesCount} getAllRecords={getAllRecords} />
 			<TableBody employees={employees} getAllRecords={getAllRecords} />
 		</div>
 	);

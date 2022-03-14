@@ -54,7 +54,12 @@ const TableBody = ({ employees, getAllRecords }) => (
 							{Object.keys(employee).map(key => (
 								<td key={key}>{employee[key]}</td>
 							))}
-							<Options id={_id} deleteStat={DeletedAt} getAllRecords={getAllRecords} />
+							<Options
+								id={_id}
+								employee={employee}
+								deleteStat={DeletedAt}
+								getAllRecords={getAllRecords}
+							/>
 						</tr>
 					);
 				}

@@ -1,26 +1,26 @@
 import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import style from './style.css';
-import { validateEmail, validatePhone, phoneInputPattern } from '../../../utils/validateObject';
+import { validateEmail, validatePhone } from '../../../utils/validateObject';
 import AlertTypo from '../../Typo/AlertTypo';
 import axios from 'axios';
 
-const ModifyFieldsTable = () => {
+const EditRecordInsertTable = ({ employee, setIsOpen, getAllRecords, id }) => {
 	const recordDefaultValue = {
-		firstName: '',
-		lastName: '',
-		email: '',
-		mobile: '',
-		gender: '',
-		Designation: '',
-		salary: '',
-		employeeCode: '',
-		dateOfJoining: '',
-		reportingManager: '',
-		location: '',
-		state: '',
-		country: '',
-		department: '',
+		FirstName: employee.FirstName ? employee.FirstName : '',
+		LastName: employee.LastName ? employee.LastName : '',
+		Email: employee.Email ? employee.Email : '',
+		Mobile: employee.Mobile ? employee.Mobile : '',
+		Gender: employee.Gender ? employee.Gender : '',
+		Designation: employee.Designation ? employee.Designation : '',
+		Salary: employee.Salary ? employee.Salary : '',
+		EmployeeCode: employee.EmployeeCode ? employee.EmployeeCode : '',
+		DateOfJoining: employee.DateOfJoining ? employee.DateOfJoining : '',
+		ReportingManager: employee.ReportingManager ? employee.ReportingManager : '',
+		Location: employee.Location ? employee.Location : '',
+		State: employee.State ? employee.State : '',
+		Country: employee.Country ? employee.Country : '',
+		Department: employee.Department ? employee.Department : '',
 	};
 
 	const errorsDefaultValue = {
@@ -31,16 +31,11 @@ const ModifyFieldsTable = () => {
 		gender: '',
 		salary: '',
 		employeeCode: '',
-		accountExists: false,
 	};
 
 	const [recordData, setRecordData] = useState(recordDefaultValue);
 	const [errors, setErrors] = useState(errorsDefaultValue);
 	const [mainErrorIndicator, setMainErrorIndicator] = useState('');
-
-	useEffect(() => {
-		console.log(recordData);
-	}, [recordData]);
 
 	const handleChange = (e, param) => {
 		if (e)
@@ -69,16 +64,19 @@ const ModifyFieldsTable = () => {
 			errors.mobile ||
 			errors.gender ||
 			errors.salary ||
-			errors.employeeCode ||
-			errors.accountExists;
+			errors.employeeCode;
 
-		if (recordData.firstName) handleErrors('', 'firstName');
-		if (recordData.lastName) handleErrors('', 'lastName');
-		if (validateEmail(recordData.email)) handleErrors('', 'email');
-		if (validatePhone(recordData.mobile)) handleErrors('', 'mobile');
-		if (recordData.gender) handleErrors('', 'gender');
-		if (recordData.salary.length === 0 || !isNaN(recordData.salary)) handleErrors('', 'salary');
-		if (recordData.employeeCode.length === 0 || !isNaN(recordData.employeeCode))
+		if (recordData.FirstName) handleErrors('', 'firstName');
+		if (recordData.LastName) handleErrors('', 'lastName');
+		if (validateEmail(recordData.Email)) handleErrors('', 'email');
+		if (validatePhone(recordData.Mobile)) handleErrors('', 'mobile');
+		if (recordData.Gender) handleErrors('', 'gender');
+		if (recordData.Salary.length === 0 || (!isNaN(recordData.Salary) && recordData.Salary > 0))
+			handleErrors('', 'salary');
+		if (
+			recordData.EmployeeCode.length === 0 ||
+			(!isNaN(recordData.EmployeeCode) && recordData.EmployeeCode > 0)
+		)
 			handleErrors('', 'employeeCode');
 		if (!checkErrors) setMainErrorIndicator('');
 		else setMainErrorIndicator('You have got some errors to deal with');
@@ -98,17 +96,19 @@ const ModifyFieldsTable = () => {
 		setMainErrorIndicator('');
 		let tempErr = errorsDefaultValue;
 
-		if (!recordData.firstName) tempErr.firstName = 'Please enter your first name';
-		if (!recordData.lastName) tempErr.lastName = 'Please enter your last name';
-		if (!recordData.email) tempErr.email = 'Please enter your email address';
-		else if (recordData.email && !validateEmail(recordData.email))
+		if (!recordData.FirstName) tempErr.firstName = 'Please enter your first name';
+		if (!recordData.LastName) tempErr.lastName = 'Please enter your last name';
+		if (!recordData.Email) tempErr.email = 'Please enter your email address';
+		else if (recordData.Email && !validateEmail(recordData.Email))
 			tempErr.email = 'Please enter a valid email address';
-		if (!recordData.mobile) tempErr.mobile = 'Please enter your mobile number';
-		else if (!validatePhone(recordData.mobile))
+		if (!recordData.Mobile) tempErr.mobile = 'Please enter your mobile number';
+		else if (!validatePhone(recordData.Mobile))
 			tempErr.mobile = 'Please enter a valid phone number';
-		if (!recordData.gender) tempErr.gender = 'Please enter your gender';
-		if (isNaN(recordData.salary)) tempErr.salary = 'Please enter a valid salary';
-		if (isNaN(recordData.employeeCode)) tempErr.employeeCode = 'Please enter a employee code';
+		if (!recordData.Gender) tempErr.gender = 'Please enter your gender';
+		if (isNaN(recordData.Salary) || Number(recordData.Salary) < 0)
+			tempErr.salary = 'Please enter a valid salary';
+		if (isNaN(recordData.EmployeeCode) || Number(recordData.EmployeeCode) < 0)
+			tempErr.employeeCode = 'Please enter a employee code';
 
 		if (
 			tempErr.firstName ||
@@ -130,10 +130,19 @@ const ModifyFieldsTable = () => {
 		const create = async () => {
 			const flag = await validate();
 			if (flag) {
-				// const documentExists = await checkDocument(['leads', recordData.phone]);
-				if (!documentExists) {
-				} else {
-				}
+				axios({
+					method: 'put',
+					url: `/api/employee/${id}`,
+					data: recordData,
+				})
+					.then(res => {
+						setIsOpen(false);
+						setRecordData(recordDefaultValue);
+						getAllRecords();
+					})
+					.catch(err => {
+						throw err;
+					});
 			}
 		};
 
@@ -154,8 +163,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="text"
 								name="firstName"
-								value={recordData.firstName}
-								onInput={e => handleChange(e, 'firstName')}
+								value={recordData.FirstName}
+								onInput={e => handleChange(e, 'FirstName')}
 							/>
 						</td>
 					</tr>
@@ -168,8 +177,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="text"
 								name="lastName"
-								value={recordData.lastName}
-								onInput={e => handleChange(e, 'lastName')}
+								value={recordData.LastName}
+								onInput={e => handleChange(e, 'LastName')}
 							/>
 						</td>
 					</tr>
@@ -182,11 +191,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="email"
 								name="Email"
-								value={recordData.email}
-								onInput={e => {
-									handleChange(e, 'email');
-									handleErrors(false, 'accountExists');
-								}}
+								value={recordData.Email}
+								onInput={e => handleChange(e, 'Email')}
 							/>
 						</td>
 					</tr>
@@ -199,12 +205,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="text"
 								name="mobile"
-								value={recordData.mobile}
-								onInput={e => {
-									if (phoneInputPattern.test(e.target.value)) handleChange(e, 'mobile');
-									else e.preventDefault();
-									handleErrors(false, 'accountExists');
-								}}
+								value={recordData.Mobile}
+								onInput={e => handleChange(e, 'Mobile')}
 							/>
 						</td>
 					</tr>
@@ -217,8 +219,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="text"
 								name="gender"
-								value={recordData.gender}
-								onInput={e => handleChange(e, 'gender')}
+								value={recordData.Gender}
+								onInput={e => handleChange(e, 'Gender')}
 							/>
 						</td>
 					</tr>
@@ -231,8 +233,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="text"
 								name="designation"
-								value={recordData.designation}
-								onInput={e => handleChange(e, 'designation')}
+								value={recordData.Designation}
+								onInput={e => handleChange(e, 'Designation')}
 							/>
 						</td>
 					</tr>
@@ -242,8 +244,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="text"
 								name="reportingManager"
-								value={recordData.reportingManager}
-								onInput={e => handleChange(e, 'reportingManager')}
+								value={recordData.ReportingManager}
+								onInput={e => handleChange(e, 'ReportingManager')}
 							/>
 						</td>
 					</tr>
@@ -251,10 +253,10 @@ const ModifyFieldsTable = () => {
 						<td>Salary (in Rs)</td>
 						<td>
 							<input
-								type="text"
+								type="number"
 								name="salary"
-								value={recordData.salary}
-								onInput={e => handleChange(e, 'salary')}
+								value={recordData.Salary}
+								onInput={e => handleChange(e, 'Salary')}
 							/>
 						</td>
 					</tr>
@@ -265,10 +267,10 @@ const ModifyFieldsTable = () => {
 						<td>Employee Code</td>
 						<td>
 							<input
-								type="text"
+								type="number"
 								name="employeeCode"
-								value={recordData.employeeCode}
-								onInput={e => handleChange(e, 'employeeCode')}
+								value={recordData.EmployeeCode}
+								onInput={e => handleChange(e, 'EmployeeCode')}
 							/>
 						</td>
 					</tr>
@@ -283,8 +285,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="text"
 								name="location"
-								value={recordData.location}
-								onInput={e => handleChange(e, 'location')}
+								value={recordData.Location}
+								onInput={e => handleChange(e, 'Location')}
 							/>
 						</td>
 					</tr>
@@ -294,8 +296,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="text"
 								name="state"
-								value={recordData.state}
-								onInput={e => handleChange(e, 'state')}
+								value={recordData.State}
+								onInput={e => handleChange(e, 'State')}
 							/>
 						</td>
 					</tr>
@@ -305,8 +307,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="text"
 								name="country"
-								value={recordData.country}
-								onInput={e => handleChange(e, 'country')}
+								value={recordData.Country}
+								onInput={e => handleChange(e, 'Country')}
 							/>
 						</td>
 					</tr>
@@ -316,8 +318,8 @@ const ModifyFieldsTable = () => {
 							<input
 								type="text"
 								name="department"
-								value={recordData.department}
-								onInput={e => handleChange(e, 'department')}
+								value={recordData.Department}
+								onInput={e => handleChange(e, 'Department')}
 							/>
 						</td>
 					</tr>
@@ -327,7 +329,7 @@ const ModifyFieldsTable = () => {
 				<div className={style.actionsContainer}>
 					{mainErrorIndicator && <AlertTypo>{mainErrorIndicator}</AlertTypo>}
 					<button className={style.deleteBtn} onClick={() => handleSubmit()}>
-						Upload
+						Update
 					</button>
 					<button className={style.cancelBtn} onClick={() => setIsOpen(false)}>
 						Cancel
@@ -338,4 +340,4 @@ const ModifyFieldsTable = () => {
 	);
 };
 
-export default ModifyFieldsTable;
+export default EditRecordInsertTable;
