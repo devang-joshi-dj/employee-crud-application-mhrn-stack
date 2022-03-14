@@ -39,7 +39,8 @@ const init = async () => {
 		method: 'PUT',
 		path: '/api/employee/{id}',
 		handler: async (request, h) => {
-			// accepting the payload and awaiting and returning the database insert response
+			// accepting the payload and id and updating the database record
+
 			const payload = request.payload;
 			const id = request.params.id;
 			const status = await UpdateDoc(id, payload);
