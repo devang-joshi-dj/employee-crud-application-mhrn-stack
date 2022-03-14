@@ -15,19 +15,8 @@ const ModalBox = ({ heading, setIsOpen }) => {
 					<button className={style.closeBtn} onClick={() => setIsOpen(false)}>
 						<img src={cancelIcon} style={{ height: '20px' }} />
 					</button>
-					<div className={style.modalContent}>
-						<ModifyFieldsTable />
-					</div>
-					<div className={style.modalActions}>
-						<div className={style.actionsContainer}>
-							<button className={style.deleteBtn} onClick={() => setIsOpen(false)}>
-								Upload
-							</button>
-							<button className={style.cancelBtn} onClick={() => setIsOpen(false)}>
-								Cancel
-							</button>
-						</div>
-					</div>
+
+					<ModifyFieldsTable />
 				</div>
 			</div>
 		</>
