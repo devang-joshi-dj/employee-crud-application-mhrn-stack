@@ -1,5 +1,4 @@
 import { h } from 'preact';
-import { useState, useCallback } from 'preact/hooks';
 import style from './style.css';
 import optionIcon from '../../../../assets/home-icons/option.png';
 import { getDateStr } from '../../../../utils/formatDate';
