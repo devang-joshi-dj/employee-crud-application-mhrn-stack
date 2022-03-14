@@ -1,7 +1,7 @@
 const Employee = require('../Schemas/Employee');
 
 async function UpdateDoc(id, payload) {
-	// function to accept the payload and id and find the employee and update the record in database
+	// function to accept the payload and id and find the employee and update the document in collection
 
 	try {
 		const employee = await Employee.updateOne({ _id: id }, { $set: payload });

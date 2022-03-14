@@ -1,7 +1,7 @@
 const Employee = require('../Schemas/Employee');
 
 async function InsertDoc(payload) {
-	// function to accept the payload and create a user object and store in database
+	// function to accept the payload and create a user object and store in collection as document
 
 	const employee = new Employee({
 		FirstName: payload.FirstName,

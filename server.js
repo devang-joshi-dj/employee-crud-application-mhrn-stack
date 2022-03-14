@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const InsertDoc = require('./backend/Utils/InsertDoc');
 const UpdateDoc = require('./backend/Utils/UpdateDoc');
 const GetDocs = require('./backend/Utils/GetDocs');
+const GetDocsCount = require('./backend/Utils/GetDocsCount');
 
 const init = async () => {
 	// initalising server
@@ -26,7 +27,7 @@ const init = async () => {
 		method: 'GET',
 		path: '/api/employee',
 		handler: async (request, h) => {
-			// accepting the queries (if exists) and awaiting and returning the all the records in the collection
+			// accepting the queries (if exists) and awaiting and returning the all the records (based on queries if exists) in the collection
 
 			let queries = request.query;
 			const allowedQueries = [
@@ -51,12 +52,42 @@ const init = async () => {
 		},
 	});
 
+	// get all record count route
+	server.route({
+		method: 'GET',
+		path: '/api/employee/count',
+		handler: async (request, h) => {
+			// accepting the queries (if exists) and awaiting and returning the all the records count (based on queries if exists) in the collection
+
+			let queries = request.query;
+			const allowedQueries = [
+				'firstname',
+				'lastname',
+				'department',
+				'email',
+				'gender',
+				'designation',
+				'reportingmanager',
+				'location',
+			];
+			Object.keys(queries).map(key => {
+				if (!allowedQueries.includes(key.toLowerCase())) {
+					delete queries[key];
+				}
+			});
+
+			const status = await GetDocsCount(queries);
+
+			return status;
+		},
+	});
+
 	// insert route
 	server.route({
 		method: 'POST',
 		path: '/api/employee',
 		handler: async (request, h) => {
-			// accepting the payload and awaiting and returning the database insert response
+			// accepting the payload and awaiting and returning the collection insert response
 
 			const payload = request.payload;
 			const status = await InsertDoc(payload);
@@ -70,7 +101,7 @@ const init = async () => {
 		method: 'PUT',
 		path: '/api/employee/{id}',
 		handler: async (request, h) => {
-			// accepting the payload and id and updating the database record
+			// accepting the payload and id and updating the collection record
 
 			const payload = request.payload;
 			const id = request.params.id;
