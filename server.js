@@ -28,7 +28,23 @@ const init = async () => {
 		handler: async (request, h) => {
 			// accepting the queries (if exists) and awaiting and returning the all the records in the collection
 
-			const queries = request.query;
+			let queries = request.query;
+			const allowedQueries = [
+				'firstname',
+				'lastname',
+				'department',
+				'email',
+				'gender',
+				'designation',
+				'reportingmanager',
+				'location',
+			];
+			Object.keys(queries).map(key => {
+				if (!allowedQueries.includes(key.toLowerCase())) {
+					delete queries[key];
+				}
+			});
+
 			const status = await GetDocs(queries);
 
 			return status;
