@@ -4,14 +4,15 @@ import style from './style.css';
 import FilterIcon from '../../../../assets/home-icons/filter.png';
 import ModalBox from '../../../modalBox';
 
-const TableHeading = ({ employeesCount, getAllRecords }) => {
+const TableHeading = ({ employeesCount, getAllRecords, setShowFilterBox }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
 		<>
 			<div class={style.tableHeading}>
 				<h2>
-					Employees ({employeesCount}) <img src={FilterIcon} alt="Option" />
+					Employees ({employeesCount}){' '}
+					<img src={FilterIcon} onClick={() => setShowFilterBox(prev => !prev)} alt="Option" />
 				</h2>
 				<div>
 					<button class={style.button} onClick={() => setIsOpen(true)}>
