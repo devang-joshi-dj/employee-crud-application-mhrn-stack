@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import style from './style.css';
+import FilterIcon from '../../../../assets/home-icons/filter.png';
 import ModalBox from '../../../modalBox';
 
 const TableHeading = ({ employeesCount, getAllRecords }) => {
@@ -9,7 +10,9 @@ const TableHeading = ({ employeesCount, getAllRecords }) => {
 	return (
 		<>
 			<div class={style.tableHeading}>
-				<h2>Employees ({employeesCount})</h2>
+				<h2>
+					Employees ({employeesCount}) <img src={FilterIcon} alt="Option" />
+				</h2>
 				<div>
 					<button class={style.button} onClick={() => setIsOpen(true)}>
 						New Employee

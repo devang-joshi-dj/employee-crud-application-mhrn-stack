@@ -9,6 +9,7 @@
 	box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.25);
 	z-index: 50;
 	text-align: center;
+	overflow: hidden;
 }
 
 .header h1 {
@@ -19,4 +20,10 @@
 	font-weight: 400;
 	color: #fff;
 	font-weight: 900;
+}
+
+@media screen and (max-width: 450px) {
+	.header h1 {
+		font-size: 16px;
+	}
 }
