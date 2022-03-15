@@ -11,7 +11,7 @@ const TableHeading = ({ employeesCount, getAllRecords, setShowFilterBox }) => {
 		<>
 			<div class={style.tableHeading}>
 				<h2>
-					Employees ({employeesCount}){' '}
+					Employees ({employeesCount})
 					<img src={FilterIcon} onClick={() => setShowFilterBox(prev => !prev)} alt="Option" />
 				</h2>
 				<div>

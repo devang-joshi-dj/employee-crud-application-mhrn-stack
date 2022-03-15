@@ -36,7 +36,6 @@ const FilterBox = ({ setEmployees, setEmployeesCount }) => {
 	};
 
 	useEffect(() => {
-		console.log(filterData);
 		getQueryRecords();
 	}, [filterData]);
 
