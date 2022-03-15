@@ -78,6 +78,10 @@
 	text-align: center;
 }
 
+.modalContent input {
+	border: 1px solid var(--black);
+}
+
 .modalActions {
 	position: absolute;
 	bottom: 2px;
