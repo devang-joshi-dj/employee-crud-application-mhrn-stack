@@ -131,10 +131,11 @@ const NewRecordInsertTable = ({ setIsOpen, getAllRecords }) => {
 		const create = async () => {
 			const flag = await validate();
 			if (flag) {
+				const uploadedData = { ...recordData, DateOfJoining: new Date(Date.now()) };
 				axios({
 					method: 'post',
 					url: '/api/employee',
-					data: recordData,
+					data: uploadedData,
 				})
 					.then(res => {
 						setIsOpen(false);
