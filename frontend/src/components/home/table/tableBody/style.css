@@ -49,6 +49,7 @@ tr.deleted {
 
 .popoverWrapper {
 	position: relative;
+	z-index: 10;
 	display: inline-block;
 }
 
@@ -80,6 +81,7 @@ tr.deleted {
 	background: var(--gray);
 	color: var(--white);
 	line-height: 56px;
+	z-index: 9;
 	padding: 0 10px;
 	text-align: center;
 	cursor: pointer;

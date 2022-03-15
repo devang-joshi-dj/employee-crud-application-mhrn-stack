@@ -1,27 +1,28 @@
 .darkBG {
 	background-color: rgba(0, 0, 0, 0.2);
 	width: 100vw;
-	height: 100vh;
-	z-index: 0;
+	height: 100%;
+	z-index: 97;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	position: absolute;
+	position: fixed;
 }
 
 .centered {
 	position: fixed;
 	top: 50%;
+	z-index: 98;
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
 
 .modal {
-	width: fit-content;
+	min-width: 500px;
 	height: 80vh;
 	background: white;
 	color: white;
-	z-index: 10;
+	z-index: 99;
 	border-radius: 16px;
 	box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
 }
@@ -131,4 +132,10 @@
 	box-shadow: none;
 	transform: none;
 	background: whitesmoke;
+}
+
+@media screen and (max-width: 550px) {
+	.modal {
+		min-width: fit-content;
+	}
 }
