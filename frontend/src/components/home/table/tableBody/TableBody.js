@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import style from './style.css';
 import { getDateStr } from '../../../../utils/formatDate';
-import TABLE_HEADERS from './TABLE_HEADERS';
+import TABLE_HEADERS from './TableHeaders';
 import Options from './Options';
 
 const TableBody = ({ employees, getAllRecords }) => (
